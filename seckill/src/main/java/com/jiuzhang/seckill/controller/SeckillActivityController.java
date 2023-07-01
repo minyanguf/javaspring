@@ -1,4 +1,4 @@
-package com.jiuzhang.seckill.controller;
+package com.jiuzhang.seckill.web;
 
 import com.jiuzhang.seckill.db.dao.SeckillActivityDao;
 import com.jiuzhang.seckill.db.dao.SeckillCommodityDao;
@@ -19,19 +19,25 @@ import java.util.Map;
 
 @Controller
 public class SeckillActivityController {
-
     @Autowired
     private SeckillActivityDao seckillActivityDao;
 
     @Autowired
     private SeckillCommodityDao seckillCommodityDao;
 
+    /**
+     * 查询秒杀活动的列表
+     *
+     * @param resultMap
+     * @return
+     */
     @RequestMapping("/seckills")
-    public String activityList(Map<String, Object> resultMap) {
+    public String sucessTest(Map<String,Object> resultMap){
         List<SeckillActivity> seckillActivities = seckillActivityDao.querySeckillActivitysByStatus(1);
-        resultMap.put("seckillActivities", seckillActivities);
+        resultMap.put("seckillActivities",seckillActivities);
         return "seckill_activity";
     }
+
     /**
      * 秒杀商品详情
      * @param resultMap
@@ -52,6 +58,7 @@ public class SeckillActivityController {
         resultMap.put("commodityDesc",seckillCommodity.getCommodityDesc());
         return "seckill_item";
     }
+
     //    @ResponseBody
     @RequestMapping("/addSeckillActivityAction")
     public String addSeckillActivityAction(
@@ -62,9 +69,10 @@ public class SeckillActivityController {
             @RequestParam("seckillNumber") long seckillNumber,
             @RequestParam("startTime") String startTime,
             @RequestParam("endTime") String endTime,
-            Map<String, Object> resultMap) throws ParseException {
-        startTime = startTime.substring(0, 10) + startTime.substring(11);
-        endTime = endTime.substring(0, 10) + endTime.substring(11);
+            Map<String, Object> resultMap
+    ) throws ParseException {
+        startTime = startTime.substring(0, 10) +  startTime.substring(11);
+        endTime = endTime.substring(0, 10) +  endTime.substring(11);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-ddhh:mm");
         SeckillActivity seckillActivity = new SeckillActivity();
         seckillActivity.setName(name);
@@ -82,10 +90,12 @@ public class SeckillActivityController {
         return "add_success";
     }
 
-
+    /**
+     * 跳转发布页
+     * @return
+     */
     @RequestMapping("/addSeckillActivity")
-    public String addSeckillActivity() {
+    public String addSeckillActivity(){
         return "add_activity";
     }
-
 }
