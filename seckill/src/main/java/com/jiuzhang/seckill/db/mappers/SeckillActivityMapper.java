@@ -17,5 +17,5 @@ public interface SeckillActivityMapper {
 
     int updateByPrimaryKey(SeckillActivity record);
 
-    List<SeckillActivity> querySeckillActivitysByStatus(int activityStatus);
+    List<SeckillActivity> querySeckillActivitysByStatus(int status);
 }

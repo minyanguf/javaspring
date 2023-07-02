@@ -1,8 +1,12 @@
+
 package com.jiuzhang.seckill;
 
 import com.jiuzhang.seckill.db.dao.SeckillActivityDao;
 import com.jiuzhang.seckill.db.mappers.SeckillActivityMapper;
+import com.jiuzhang.seckill.db.mappers.SeckillCommodityMapper;
 import com.jiuzhang.seckill.db.po.SeckillActivity;
+import com.jiuzhang.seckill.db.po.SeckillCommodity;
+import com.jiuzhang.seckill.services.SeckillOverSellService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,8 +17,10 @@ import java.util.List;
 
 @SpringBootTest
 public class DaoTest {
+
     @Resource
     private SeckillActivityMapper seckillActivityMapper;
+
     @Autowired
     private SeckillActivityDao seckillActivityDao;
 
@@ -34,9 +40,10 @@ public class DaoTest {
     }
 
     @Test
-    void setSeckillActivityQuery() {
+    void setSeckillActivityQuery(){
         List<SeckillActivity> seckillActivitys = seckillActivityDao.querySeckillActivitysByStatus(0);
         System.out.println(seckillActivitys.size());
         seckillActivitys.stream().forEach(seckillActivity -> System.out.println(seckillActivity.toString()));
     }
+
 }

@@ -11,7 +11,7 @@
     id, commodity_name, commodity_desc, commodity_price
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from seckill_commodity
     where id = #{id,jdbcType=BIGINT}

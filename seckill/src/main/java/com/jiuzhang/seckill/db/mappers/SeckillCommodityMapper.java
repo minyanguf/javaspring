@@ -1,7 +1,9 @@
 package com.jiuzhang.seckill.db.mappers;
 
 import com.jiuzhang.seckill.db.po.SeckillCommodity;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface SeckillCommodityMapper {
     int deleteByPrimaryKey(Long id);
 
