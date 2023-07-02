@@ -18,6 +18,14 @@ public class RedisDemoTest {
     }
 
     @Test
+    public void  stockTest2(){
+        String val = redisService.setValue2("stock:19",10L).getValue("stock:19");
+        System.out.println(val);
+    }
+
+
+
+    @Test
     public void getStockTest(){
      String stock =  redisService.getValue("stock:19");
      System.out.println(stock);
