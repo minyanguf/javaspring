@@ -24,13 +24,13 @@ public class SeckillOverSellController {
      * @return
      */
     @ResponseBody
-//    @RequestMapping("/seckill/{seckillActivityId}")
+    @RequestMapping("/seckill123/{seckillActivityId}")
     public String  seckil(@PathVariable long seckillActivityId){
        return seckillOverSellService.processSeckill(seckillActivityId);
     }
 
     /**
-     * 使用 lua 脚本处理抢购请求
+     * 简单 处理抢购请求
      * @param seckillActivityId
      * @return
      */
