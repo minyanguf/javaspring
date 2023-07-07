@@ -143,12 +143,12 @@ public class SeckillActivityController {
             /*
              * 判断用户是否在已购名单中
              */
-            if (redisService.isInLimitMember(seckillActivityId, userId)) {
-                //提示用户已经在限购名单中，返回结果
-                modelAndView.addObject("resultInfo", "对不起，您已经在限购名单中");
-                modelAndView.setViewName("seckill_result");
-                return modelAndView;
-            }
+//            if (redisService.isInLimitMember(seckillActivityId, userId)) {
+//                //提示用户已经在限购名单中，返回结果
+//                modelAndView.addObject("resultInfo", "对不起，您已经在限购名单中");
+//                modelAndView.setViewName("seckill_result");
+//                return modelAndView;
+//            }
             /*
              * 确认是否能够进行秒杀
              */

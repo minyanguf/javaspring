@@ -42,38 +42,36 @@ public class SeckillActivityService {
      * 在分布式环境中可以从机器配置上读取
      * 单机开发环境中先写死
      */
-    private SnowFlake snowFlake = new SnowFlake(1, 1);
+    private final SnowFlake snowFlake = new SnowFlake(1, 1);
 
     /**
-     * 创建订单
+     * Create order.
      *
-     * @param seckillActivityId
-     * @param userId
-     * @return
-     * @throws Exception
+     * @param id Activity ID
+     * @param userId User ID
+     * @return Order detail
+     * @throws Exception MQ exception
      */
-    public Order createOrder(long seckillActivityId, long userId) throws Exception {
-        /*
-         * 1.创建订单
-         */
-        SeckillActivity seckillActivity = seckillActivityDao.querySeckillActivityById(seckillActivityId);
+    public Order createOrder(long id, long userId) throws Exception {
+
+        // 1. query & get activity
+        SeckillActivity seckillActivity = seckillActivityDao.querySeckillActivityById(id);
+
+        // 2. create & set new order information
         Order order = new Order();
-        //采用雪花算法生成订单ID
+
+        // use snowflake algorithm to generate order ID
         order.setOrderNo(String.valueOf(snowFlake.nextId()));
         order.setSeckillActivityId(seckillActivity.getId());
         order.setUserId(userId);
         order.setOrderAmount(seckillActivity.getSeckillPrice().longValue());
-        /*
-         *2.发送创建订单消息
-         */
+
+        // 3. send "create order" message to Rocket MQ
         rocketMQService.sendMessage("seckill_order", JSON.toJSONString(order));
 
-        /*
-         * 3.发送订单付款状态校验消息
-         * 开源RocketMQ支持延迟消息，但是不支持秒级精度。默认支持18个level的延迟消息，这是通过broker端的messageDelayLevel配置项确定的，如下：
-         * messageDelayLevel=1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
-         */
-        rocketMQService.sendDelayMessage("pay_check", JSON.toJSONString(order), 3);
+        // 4. send "validate pay status" message to Rocket MQ
+        // Rocket MQ support 18 levels, messageDelayLevel=1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
+        rocketMQService.sendDelayMessage("pay_check", JSON.toJSONString(order), 5);
 
         return order;
     }

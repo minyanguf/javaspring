@@ -31,7 +31,6 @@ public class PayStatusCheckListener implements RocketMQListener<MessageExt> {
     @Resource
     private RedisService redisService;
 
-
     @Override
     @Transactional
     public void onMessage(MessageExt messageExt) {
