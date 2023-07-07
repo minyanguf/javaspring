@@ -20,7 +20,6 @@ import java.nio.charset.StandardCharsets;
  */
 @Slf4j
 @Component
-@Transactional
 @RocketMQMessageListener(topic = "pay_done", consumerGroup = "pay_done_group")
 public class PayDoneConsumer implements RocketMQListener<MessageExt> {
     @Autowired
@@ -30,6 +29,7 @@ public class PayDoneConsumer implements RocketMQListener<MessageExt> {
     private SeckillActivityDao seckillActivityDao;
 
     @Override
+    @Transactional
     public void onMessage(MessageExt messageExt) {
         //1.解析创建订单请求消息
         String message = new String(messageExt.getBody(), StandardCharsets.UTF_8);

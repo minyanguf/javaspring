@@ -130,7 +130,7 @@ public class SeckillActivityService {
         order.setOrderStatus(2);
         orderDao.updateOrder(order);
         /*
-         *3.发送订单付款成功消息
+         * 3.发送订单付款成功消息
          */
         rocketMQService.sendMessage("pay_done", JSON.toJSONString(order));
     }
