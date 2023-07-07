@@ -20,7 +20,7 @@ public class RedisPreheatRunner implements ApplicationRunner {
     SeckillActivityDao seckillActivityDao;
 
     /**
-     * 商品缓存预热
+     * 将商品库存同步到redis中
      * @param args
      * @throws Exception
      */

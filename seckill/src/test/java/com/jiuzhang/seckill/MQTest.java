@@ -13,15 +13,14 @@ public class MQTest {
 
     @Autowired
     RocketMQService rocketMQService;
+
     @Autowired
     SeckillActivityService seckillActivityService;
+
     @Test
     public void sendMQTest() throws Exception {
         rocketMQService.sendMessage("test-jiuzhang", "Hello World!" + new Date().toString());
     }
 
-    @Test
-    public void pushSeckillInfoToRedisTest(){
-        seckillActivityService.pushSeckillInfoToRedis(19);
-    }
+
 }

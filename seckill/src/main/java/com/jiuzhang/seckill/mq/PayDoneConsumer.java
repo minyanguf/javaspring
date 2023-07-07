@@ -1,6 +1,7 @@
 package com.jiuzhang.seckill.mq;
 
 import com.alibaba.fastjson.JSON;
+import com.jiuzhang.seckill.db.dao.OrderDao;
 import com.jiuzhang.seckill.db.dao.SeckillActivityDao;
 import com.jiuzhang.seckill.db.po.Order;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,8 @@ import java.nio.charset.StandardCharsets;
 @Transactional
 @RocketMQMessageListener(topic = "pay_done", consumerGroup = "pay_done_group")
 public class PayDoneConsumer implements RocketMQListener<MessageExt> {
+    @Autowired
+    private OrderDao orderDao;
 
     @Autowired
     private SeckillActivityDao seckillActivityDao;

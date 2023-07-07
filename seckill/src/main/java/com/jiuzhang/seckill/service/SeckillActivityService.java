@@ -89,6 +89,20 @@ public class SeckillActivityService {
         return redisService.stockDeductValidator(key);
     }
 
+
+    /**
+     * 将秒杀详情相关信息倒入redis
+     *
+     * @param seckillActivityId
+     */
+    public void pushSeckillInfoToRedis(long seckillActivityId) {
+        SeckillActivity seckillActivity = seckillActivityDao.querySeckillActivityById(seckillActivityId);
+        redisService.setValue("seckillActivity:" + seckillActivityId, JSON.toJSONString(seckillActivity));
+
+        SeckillCommodity seckillCommodity = seckillCommodityDao.querySeckillCommodityById(seckillActivity.getCommodityId());
+        redisService.setValue("seckillCommodity:" + seckillActivity.getCommodityId(), JSON.toJSONString(seckillCommodity));
+    }
+
     /**
      * 订单支付完成处理
      *

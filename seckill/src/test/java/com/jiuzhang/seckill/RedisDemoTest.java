@@ -1,5 +1,6 @@
 package com.jiuzhang.seckill;
 
+import com.jiuzhang.seckill.service.SeckillActivityService;
 import com.jiuzhang.seckill.util.RedisService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +12,8 @@ public class RedisDemoTest {
 
     @Resource
     private RedisService redisService;
+    @Resource
+    SeckillActivityService seckillActivityService;
 
     @Test
     public void stockTest() {
@@ -47,4 +50,17 @@ public class RedisDemoTest {
     public void removeLimitMember() {
         redisService.removeLimitMember(19, 1234);
     }
+
+    @Test
+    public void pushSeckillInfoToRedisTest(){
+        seckillActivityService.pushSeckillInfoToRedis(19);
+    }
+    @Test
+    public void getSekillInfoFromRedis() {
+        String seclillInfo = redisService.getValue("seckillActivity:" + 19);
+        System.out.println(seclillInfo);
+        String seckillCommodity = redisService.getValue("seckillCommodity:"+1001);
+        System.out.println(seckillCommodity);
+    }
+
 }
