@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class RedisPreheatRunner  implements ApplicationRunner {
+public class RedisPreheatRunner implements ApplicationRunner {
+
     @Autowired
     RedisService redisService;
 
@@ -19,7 +20,7 @@ public class RedisPreheatRunner  implements ApplicationRunner {
     SeckillActivityDao seckillActivityDao;
 
     /**
-     * 启动项目时 向 Redis 存入 商品库存
+     * 商品缓存预热
      * @param args
      * @throws Exception
      */
@@ -31,4 +32,5 @@ public class RedisPreheatRunner  implements ApplicationRunner {
                     (long) seckillActivity.getAvailableStock());
         }
     }
+
 }

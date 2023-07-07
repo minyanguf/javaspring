@@ -3,7 +3,6 @@ package com.jiuzhang.seckill.db.dao;
 import com.jiuzhang.seckill.db.mappers.SeckillActivityMapper;
 import com.jiuzhang.seckill.db.po.SeckillActivity;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -37,8 +36,18 @@ public class SeckillActivityDaoImpl implements SeckillActivityDao {
     }
 
     @Override
-    public boolean deductStock(long activityId) {
-        int result = seckillActivityMapper.deductStock(activityId);
+    public boolean lockStock(Long seckillActivityId) {
+        int result = seckillActivityMapper.lockStock( seckillActivityId );
+        if (result < 1) {
+            log.error("锁定库存失败");
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deductStock(Long seckillActivityId) {
+        int result = seckillActivityMapper.deductStock(seckillActivityId);
         if (result < 1) {
             log.error("扣减库存失败");
             return false;
@@ -47,12 +56,7 @@ public class SeckillActivityDaoImpl implements SeckillActivityDao {
     }
 
     @Override
-    public boolean lockStock(long activityId) {
-        int result = seckillActivityMapper.lockStock(activityId);
-        if (result < 1) {
-            log.error("锁定库存失败");
-            return false;
-        }
-        return true;
+    public void revertStock(Long seckillActivityId) {
+        seckillActivityMapper.revertStock(seckillActivityId);
     }
 }

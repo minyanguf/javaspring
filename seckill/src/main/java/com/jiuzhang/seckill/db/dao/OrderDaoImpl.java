@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 
 @Repository
-public class OrderDaolmpl implements OrderDao {
+public class OrderDaoImpl implements OrderDao {
 
     @Resource
     private OrderMapper orderMapper;

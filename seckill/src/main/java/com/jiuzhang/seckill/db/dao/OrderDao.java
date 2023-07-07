@@ -4,9 +4,9 @@ import com.jiuzhang.seckill.db.po.Order;
 
 public interface OrderDao {
 
-    public void insertOrder(Order order);
+    void insertOrder(Order order);
 
-    public Order queryOrder(String orderNo);
+    Order queryOrder(String orderNo);
 
-    public void updateOrder(Order order);
+    void updateOrder(Order order);
 }

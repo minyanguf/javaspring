@@ -3,13 +3,13 @@ package com.jiuzhang.seckill.db.mappers;
 import com.jiuzhang.seckill.db.po.Order;
 
 public interface OrderMapper {
-    int deleteByPrimaryKey(Long orderId);
+    int deleteByPrimaryKey(Long id);
 
     int insert(Order record);
 
     int insertSelective(Order record);
 
-    Order selectByPrimaryKey(Long orderId);
+    Order selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(Order record);
 

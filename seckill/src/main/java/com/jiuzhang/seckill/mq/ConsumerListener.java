@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 @Component
 @RocketMQMessageListener(topic = "test-jiuzhang", consumerGroup = "conmuserGrop-jiuzhang")
 public class ConsumerListener implements RocketMQListener<MessageExt> {
+
     @Override
     public void onMessage(MessageExt messageExt) {
         try {

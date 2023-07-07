@@ -1,6 +1,5 @@
 package com.jiuzhang.seckill.mq;
 
-
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

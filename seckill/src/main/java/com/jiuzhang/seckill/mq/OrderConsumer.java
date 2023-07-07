@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.jiuzhang.seckill.db.dao.OrderDao;
 import com.jiuzhang.seckill.db.dao.SeckillActivityDao;
 import com.jiuzhang.seckill.db.po.Order;
+import com.jiuzhang.seckill.util.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
@@ -25,9 +26,12 @@ public class OrderConsumer implements RocketMQListener<MessageExt> {
     @Autowired
     private SeckillActivityDao seckillActivityDao;
 
+    @Autowired
+    RedisService redisService;
+
     @Override
     @Transactional
-    public void onMessage(MessageExt messageExt) {
+    public void onMessage (MessageExt messageExt) {
         //1.解析创建订单请求消息
         String message = new String(messageExt.getBody(), StandardCharsets.UTF_8);
         log.info("接收到创建订单请求：" + message);
@@ -38,6 +42,8 @@ public class OrderConsumer implements RocketMQListener<MessageExt> {
         if (lockStockResult) {
             //订单状态 0:没有可用库存，无效订单 1:已创建等待付款
             order.setOrderStatus(1);
+            // 将用户加入到限购用户中
+            redisService.addLimitMember(order.getSeckillActivityId(), order.getUserId());
         } else {
             order.setOrderStatus(0);
         }

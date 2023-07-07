@@ -15,11 +15,11 @@
     <result column="lock_stock" jdbcType="BIGINT" property="lockStock" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, commodity_id, old_price, seckill_price, activity_status, start_time, end_time,
+    id, name, commodity_id, old_price, seckill_price, activity_status, start_time, end_time, 
     total_stock, available_stock, lock_stock
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from seckill_activity
     where id = #{id,jdbcType=BIGINT}
@@ -29,13 +29,13 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.jiuzhang.seckill.db.po.SeckillActivity">
-    insert into seckill_activity (id, name, commodity_id,
-      old_price, seckill_price, activity_status,
-      start_time, end_time, total_stock,
+    insert into seckill_activity (id, name, commodity_id, 
+      old_price, seckill_price, activity_status, 
+      start_time, end_time, total_stock, 
       available_stock, lock_stock)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{commodityId,jdbcType=BIGINT},
-      #{oldPrice,jdbcType=DECIMAL}, #{seckillPrice,jdbcType=DECIMAL}, #{activityStatus,jdbcType=INTEGER},
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{totalStock,jdbcType=BIGINT},
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{commodityId,jdbcType=BIGINT}, 
+      #{oldPrice,jdbcType=DECIMAL}, #{seckillPrice,jdbcType=DECIMAL}, #{activityStatus,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{totalStock,jdbcType=BIGINT}, 
       #{availableStock,jdbcType=INTEGER}, #{lockStock,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.jiuzhang.seckill.db.po.SeckillActivity">
@@ -161,7 +161,6 @@
       lock_stock = #{lockStock,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
   <select id="querySeckillActivitysByStatus" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
@@ -169,18 +168,24 @@
     where activity_status = #{id,jdbcType=SMALLINT}
   </select>
 
-  <update id="deductStock" parameterType="java.lang.Long">
-        UPDATE seckill_activity
-        SET lock_stock = lock_stock - 1
-        WHERE id = #{id,jdbcType=BIGINT}
-
-  </update>
-
   <update id="lockStock" parameterType="java.lang.Long">
     update seckill_activity
     set available_stock = available_stock - 1,
         lock_stock = lock_stock + 1
     where id = #{id,jdbcType=BIGINT}
     and  available_stock > 0
+  </update>
+
+  <update id="deductStock" parameterType="java.lang.Long">
+        UPDATE seckill_activity
+        SET lock_stock = lock_stock - 1
+        WHERE id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="revertStock" parameterType="java.lang.Long">
+    update seckill_activity
+    set available_stock = available_stock + 1,
+        lock_stock = lock_stock - 1
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

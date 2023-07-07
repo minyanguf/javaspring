@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 public class SeckillCommodityDaoImpl implements SeckillCommodityDao {
 
     @Resource
-    private SeckillCommodityMapper  seckillCommodityMapper;
+    private SeckillCommodityMapper seckillCommodityMapper;
 
     @Override
     public SeckillCommodity querySeckillCommodityById(long commodityId) {
